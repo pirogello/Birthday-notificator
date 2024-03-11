@@ -5,3 +5,11 @@ spring:
     url: jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}
     password: ${POSTGRES_USERNAME}
     username: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+#      ddl-auto: create-drop
+      ddl-auto: none
+#    show-sql: true
+  flyway:
+    schemas:
+      - public
