@@ -4,9 +4,9 @@ import com.project.birthdaynotificator.model.Notification;
 import com.project.birthdaynotificator.repository.NotificationRepository;
 import com.project.birthdaynotificator.util.Notificator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,7 +17,8 @@ import java.util.List;
 public class NotificatorService {
 
     private final NotificationRepository notificationRepository;
-    private final Notificator notificator;
+    @Qualifier("LogerNotificator")
+    private final Notificator logerNotificator;
 
     @Async
     @Scheduled(cron="0 0-59 8-23 * * *")// каждый минуту с 8:00 до 23:00
@@ -32,8 +33,8 @@ public class NotificatorService {
                 var BDWithPeriod = n.getBirthdayDate().minusDays(p.getValue());
                 if(now.getMonthValue() == BDWithPeriod.getMonthValue()
                 && now.getDayOfMonth() == BDWithPeriod.getDayOfMonth()){
-                    notificator.sendNotifications(n);
-                    //System.out.printf("Через %d день День рождения у %s. Исполняется %d лет\n", p.getValue(), n.getDetails(), years);
+                    // TODO insert notificators for send notifications
+                    logerNotificator.sendNotifications(n);
                 }
 
             });

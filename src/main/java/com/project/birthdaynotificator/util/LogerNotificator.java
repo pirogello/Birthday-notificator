@@ -1,15 +1,21 @@
 package com.project.birthdaynotificator.util;
 
 import com.project.birthdaynotificator.model.Notification;
+import com.project.birthdaynotificator.service.NotificationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.Period;
 
-@Component
+@Component("LogerNotificator")
 @Slf4j
-public class LogerNotificator implements Notificator{
+@RequiredArgsConstructor
+public class LogerNotificator implements Notificator, CommandLineRunner {
+
+    private final NotificationService notificationService;
     @Override
     public void sendNotifications(Notification notification) {
         LocalDate now = LocalDate.now();
@@ -29,5 +35,12 @@ public class LogerNotificator implements Notificator{
             differenceInDays += date1WithoutYear.lengthOfYear();
         }
         return differenceInDays;
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+//        log.info("Created new notification");
+//        CreateNotificationRequest createNotificationRequest = new CreateNotificationRequest("Details", LocalDate.now().plusDays(1));
+//        notificationService.create(createNotificationRequest);
     }
 }
