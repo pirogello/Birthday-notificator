@@ -8,6 +8,11 @@ import com.project.birthdaynotificator.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService{
@@ -24,6 +29,14 @@ public class NotificationServiceImpl implements NotificationService{
     public Notification create(CreateNotificationRequest request) {
         Notification notification = getModelFromCreateRequest(request);
         return notificationRepo.save(notification);
+    }
+
+    @Override
+    public List<Notification> getAllBetween(LocalDate from, LocalDate to) {
+        if(from == null) from = LocalDate.of(2000, Month.JANUARY,1);
+        if(to == null) to = LocalDate.of(2000, Month.DECEMBER,31);
+        return notificationRepo.findAllByBirthdayDateWithoutYearBetween(from.getMonthValue(), from.getDayOfMonth(),
+                                                                        to.getDayOfMonth(), from.getDayOfMonth());
     }
 
     private Notification getModelFromCreateRequest(CreateNotificationRequest request){

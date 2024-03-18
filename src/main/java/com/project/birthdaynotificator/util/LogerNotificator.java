@@ -1,5 +1,6 @@
 package com.project.birthdaynotificator.util;
 
+import com.project.birthdaynotificator.dto.CreateNotificationRequest;
 import com.project.birthdaynotificator.model.Notification;
 import com.project.birthdaynotificator.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,12 @@ public class LogerNotificator implements Notificator, CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        log.info("Created new notification");
-//        CreateNotificationRequest createNotificationRequest = new CreateNotificationRequest("Details", LocalDate.now().plusDays(1));
-//        notificationService.create(createNotificationRequest);
+        log.info("Creating new notification`s");
+        CreateNotificationRequest createNotificationRequest1 = new CreateNotificationRequest("Details", LocalDate.now().plusDays(1));
+        CreateNotificationRequest createNotificationRequest3 = new CreateNotificationRequest("Details", LocalDate.now().plusDays(3));
+        CreateNotificationRequest createNotificationRequest7 = new CreateNotificationRequest("Details", LocalDate.now().plusDays(7));
+        notificationService.create(createNotificationRequest1);
+        notificationService.create(createNotificationRequest3);
+        notificationService.create(createNotificationRequest7);
     }
 }
