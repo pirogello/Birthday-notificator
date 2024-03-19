@@ -18,7 +18,7 @@ public class LogerNotificator implements Notificator, CommandLineRunner {
 
     private final NotificationService notificationService;
     @Override
-    public void sendNotifications(Notification notification) {
+    public void sendNotification(Notification notification) {
         LocalDate now = LocalDate.now();
         int yearsOld = now.getYear() - notification.getBirthdayDate().getYear();
         int daysToBD = getDiffInDaysOfTwoDates(now, notification.getBirthdayDate());

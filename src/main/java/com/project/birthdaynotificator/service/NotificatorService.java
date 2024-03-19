@@ -21,7 +21,7 @@ public class NotificatorService {
     private final Notificator logerNotificator;
 
     @Async
-    @Scheduled(cron="0 0-59 8-23 * * *")// каждый минуту с 8:00 до 23:00
+    @Scheduled(cron="0 0-59 * * * *")// каждую минуту
     //@Scheduled(cron="0 0 9 * * *")// каждый день в 9:00
     public void notificate() {
         LocalDate now = LocalDate.now();
@@ -34,7 +34,7 @@ public class NotificatorService {
                 if(now.getMonthValue() == BDWithPeriod.getMonthValue()
                 && now.getDayOfMonth() == BDWithPeriod.getDayOfMonth()){
                     // TODO insert notificators for send notifications
-                    logerNotificator.sendNotifications(n);
+                    logerNotificator.sendNotification(n);
                 }
 
             });

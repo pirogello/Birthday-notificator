@@ -2,17 +2,17 @@ package com.project.birthdaynotificator.controller;
 
 import com.project.birthdaynotificator.dto.CreateNotificationRequest;
 import com.project.birthdaynotificator.dto.NotificationResponse;
-import com.project.birthdaynotificator.exception.BindingExceptions;
+import com.project.birthdaynotificator.dto.PeriodsResponse;
+import com.project.birthdaynotificator.dto.UpdateNotificationRequest;
 import com.project.birthdaynotificator.exception.ModelNotFoundException;
+import com.project.birthdaynotificator.model.NotificationPeriod;
 import com.project.birthdaynotificator.service.NotificationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,9 +29,13 @@ public class NotificationRestController {
     }
 
     @PostMapping
-    public NotificationResponse createNotification(@Valid @RequestBody CreateNotificationRequest request, BindingResult bindingResult) throws BindingExceptions {
-        if(bindingResult.hasErrors()) throw new BindingExceptions(bindingResult.getAllErrors());
+    public NotificationResponse createNotification(@Valid @RequestBody CreateNotificationRequest request) {
         return NotificationResponse.getResponseFromModel(notificationService.create(request));
+    }
+
+    @PutMapping
+    public NotificationResponse updateNotification(@Valid @RequestBody UpdateNotificationRequest request) throws ModelNotFoundException {
+        return NotificationResponse.getResponseFromModel(notificationService.update(request));
     }
 
     @GetMapping
@@ -42,6 +46,13 @@ public class NotificationRestController {
         return notificationService.getAllBetween(from, to).stream()
                 .map(NotificationResponse::getResponseFromModel)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/periods")
+    public PeriodsResponse getAllAvailablePeriods() {
+        return new PeriodsResponse(notificationService.getAllAvailablePeriods().stream()
+                .map(NotificationPeriod::getValue)
+                .collect(Collectors.toList()));
     }
 
 
