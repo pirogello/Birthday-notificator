@@ -16,8 +16,10 @@ public class TelegramBotServiceImpl implements TelegramBotService {
     private final TelegramConnectAccountHelper telegramConnectAccountHelper;
     @Override
     public void connectAccount(long chatId, UUID userId) {
+        // TODO получить пользователя из БД
         String username = "username";
-        telegramConnectAccountHelper.sendConfirmation(chatId, userId, username);
+
+        telegramConnectAccountHelper.sendConfirmationForm(chatId, userId, username);
         log.info("Подключение акканта к телеграм боту");
     }
 }

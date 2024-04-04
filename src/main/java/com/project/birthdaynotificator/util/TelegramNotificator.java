@@ -8,7 +8,6 @@ import com.project.birthdaynotificator.util.telegram.TelegramConnectAccountHelpe
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -21,7 +20,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 import java.util.UUID;
 
 import static com.project.birthdaynotificator.util.telegram.BotCommandsEnum.*;
@@ -75,22 +73,21 @@ public class TelegramNotificator extends TelegramLongPollingBot implements Notif
     }
 
     private void botAnswerUtils(String receivedMessage, long chatId, String userName) {
-        if(Objects.equals(receivedMessage, START.getCommand())){
+        if(receivedMessage.startsWith(START.getCommand())){
             startBot(chatId, userName); return;
         }
         if(receivedMessage.startsWith(HELP.getCommand())){
             sendTextMessage(chatId, HELP_TEXT); return;
         }
         if(receivedMessage.startsWith(CONNECT_ACCOUNT.getCommand())){
-            connectAccount(chatId); return;
+            showConnectAccountForm(chatId); return;
         }
         if(receivedMessage.startsWith(CONFIRM_CONNECT_ACCOUNT.getCommand())){
-            confirmConnection(chatId, receivedMessage); return;
+            confirmConnectionAndShowSuccessMessage(chatId, receivedMessage); return;
         }
     }
 
-    private void connectAccount(long chatId) {
-
+    private void showConnectAccountForm(long chatId) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(CONNECT_ACCOUNT_TEXT);
@@ -147,7 +144,7 @@ public class TelegramNotificator extends TelegramLongPollingBot implements Notif
     }
 
     @Override
-    public void sendConfirmation(long chatId, UUID userId, String username) {
+    public void sendConfirmationForm(long chatId, UUID userId, String username) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(CONFIRM_CONNECTION_ACCOUNT_TEXT.formatted(username));
@@ -160,7 +157,7 @@ public class TelegramNotificator extends TelegramLongPollingBot implements Notif
     }
 
 
-    private void confirmConnection(long chatId, String receivedMessage){
+    private void confirmConnectionAndShowSuccessMessage(long chatId, String receivedMessage){
         UUID userId = UUID.fromString(receivedMessage.split(" ")[1]);
         userService.addTelegramChat(chatId, userId);
         SendMessage message = new SendMessage();
