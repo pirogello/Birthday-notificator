@@ -1,10 +1,14 @@
 package com.project.birthdaynotificator.service;
 
+import com.project.birthdaynotificator.dto.CreateNotificationRequest;
 import com.project.birthdaynotificator.model.Notification;
 import com.project.birthdaynotificator.repository.NotificationRepository;
 import com.project.birthdaynotificator.util.Notificator;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -14,11 +18,15 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NotificatorService {
 
     private final NotificationRepository notificationRepository;
-    @Qualifier("LogerNotificator")
+    private final NotificationService notificationService;
+    @Qualifier("logerNotificator") @NonNull
     private final Notificator logerNotificator;
+    @Qualifier("telegramNotificator") @NonNull
+    private final Notificator telegramNotificator;
 
     @Async
     @Scheduled(cron="0 0-59 * * * *")// каждую минуту
@@ -35,6 +43,7 @@ public class NotificatorService {
                 && now.getDayOfMonth() == BDWithPeriod.getDayOfMonth()){
                     // TODO insert notificators for send notifications
                     logerNotificator.sendNotification(n);
+                    telegramNotificator.sendNotification(n);
                 }
 
             });

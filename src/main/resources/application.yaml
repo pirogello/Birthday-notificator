@@ -15,3 +15,10 @@ spring:
   flyway:
     schemas:
       - public
+
+telegram:
+  bot:
+    name: Birthday Notificator
+    token: 6803757475:AAFY2J5OoMHUNZ6oWbQ41yjsbqUjyo-ZuXA
+    connection:
+      host: http://192.168.205.80:8080 #не работает с localhost

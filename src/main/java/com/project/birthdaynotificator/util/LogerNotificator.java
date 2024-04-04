@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.Period;
 
-@Component("LogerNotificator")
+@Component("logerNotificator")
 @Slf4j
 @RequiredArgsConstructor
-public class LogerNotificator implements Notificator, CommandLineRunner {
+public class LogerNotificator implements Notificator {
 
     private final NotificationService notificationService;
     @Override
@@ -36,16 +36,5 @@ public class LogerNotificator implements Notificator, CommandLineRunner {
             differenceInDays += date1WithoutYear.lengthOfYear();
         }
         return differenceInDays;
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        log.info("Creating new notification`s");
-        CreateNotificationRequest createNotificationRequest1 = new CreateNotificationRequest("Details", LocalDate.now().plusDays(1));
-        CreateNotificationRequest createNotificationRequest3 = new CreateNotificationRequest("Details", LocalDate.now().plusDays(3));
-        CreateNotificationRequest createNotificationRequest7 = new CreateNotificationRequest("Details", LocalDate.now().plusDays(7));
-        notificationService.create(createNotificationRequest1);
-        notificationService.create(createNotificationRequest3);
-        notificationService.create(createNotificationRequest7);
     }
 }
