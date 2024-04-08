@@ -1,6 +1,5 @@
 package com.project.birthdaynotificator.repository;
 
-import com.project.birthdaynotificator.model.Notification;
 import com.project.birthdaynotificator.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

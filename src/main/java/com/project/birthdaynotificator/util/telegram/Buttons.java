@@ -6,9 +6,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.List;
-import java.util.UUID;
 
-import static com.project.birthdaynotificator.util.telegram.BotCommandsEnum.*;
+import static com.project.birthdaynotificator.util.telegram.BotCommandsEnum.HELP;
+import static com.project.birthdaynotificator.util.telegram.BotCommandsEnum.START;
 
 @Getter
 public class Buttons {

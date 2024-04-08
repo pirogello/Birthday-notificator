@@ -8,7 +8,6 @@ import com.project.birthdaynotificator.model.NotificationPeriod;
 import com.project.birthdaynotificator.repository.NotificationRepository;
 import com.project.birthdaynotificator.repository.UserRepository;
 import com.project.birthdaynotificator.service.NotificationService;
-import com.project.birthdaynotificator.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

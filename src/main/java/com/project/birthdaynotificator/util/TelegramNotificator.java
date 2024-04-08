@@ -1,7 +1,6 @@
 package com.project.birthdaynotificator.util;
 
 import com.project.birthdaynotificator.model.Notification;
-import com.project.birthdaynotificator.model.User;
 import com.project.birthdaynotificator.service.UserService;
 import com.project.birthdaynotificator.util.telegram.BotCommands;
 import com.project.birthdaynotificator.util.telegram.Buttons;
@@ -10,7 +9,6 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -22,7 +20,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 import static com.project.birthdaynotificator.util.telegram.BotCommandsEnum.*;
 

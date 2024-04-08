@@ -21,7 +21,6 @@ import java.util.List;
 public class NotificatorService {
 
     private final NotificationRepository notificationRepository;
-    private final NotificationService notificationService;
     @Qualifier("logerNotificator") @NonNull
     private final Notificator logerNotificator;
     @Qualifier("telegramNotificator") @NonNull
