@@ -27,4 +27,7 @@ public class Notification {
     @CollectionTable(name="periods", joinColumns=@JoinColumn(name="notification_id"))
     @Column(name="c_period")
     private Set<NotificationPeriod> periods;
+
+    @ManyToOne
+    private User user;
 }

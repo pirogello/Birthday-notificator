@@ -1,6 +1,7 @@
 package com.project.birthdaynotificator.util;
 
 import com.project.birthdaynotificator.model.Notification;
+import com.project.birthdaynotificator.model.User;
 import com.project.birthdaynotificator.service.UserService;
 import com.project.birthdaynotificator.util.telegram.BotCommands;
 import com.project.birthdaynotificator.util.telegram.Buttons;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -82,9 +84,6 @@ public class TelegramNotificator extends TelegramLongPollingBot implements Notif
         if(receivedMessage.startsWith(CONNECT_ACCOUNT.getCommand())){
             showConnectAccountForm(chatId); return;
         }
-        if(receivedMessage.startsWith(CONFIRM_CONNECT_ACCOUNT.getCommand())){
-            confirmConnectionAndShowSuccessMessage(chatId, receivedMessage); return;
-        }
     }
 
     private void showConnectAccountForm(long chatId) {
@@ -127,28 +126,26 @@ public class TelegramNotificator extends TelegramLongPollingBot implements Notif
 
     @Override
     public void sendNotification(Notification notification) {
-//        sendTextMessage(742774855, formatNotification(notification));
+        var chatIds = notification.getUser().getTelegramChatIds();
+        //var chats = user.getTelegramChatIds().stream().toList();
+        for (Long chat : chatIds) {
+            sendTextMessage(chat, formatNotification(notification));
+        }
     }
 
     private String formatNotification(Notification notification){
         DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd MMMM");
-        return """
-                Когда: %s
-                У кого: %s
-                Исполняется: %s лет
-                Напоминаем за: %s дней
-                """.formatted(dTF.format(notification.getBirthdayDate()),
+        return NOTIFICATION_INFO_TEXT.formatted(dTF.format(notification.getBirthdayDate()),
                 notification.getDetails(),
                 LocalDate.now().getYear() - notification.getBirthdayDate().getYear(),
                 notification.getPeriods().stream().map(p -> String.valueOf(p.getValue())).reduce((acc, v) -> acc + v + " ").orElse(""));
     }
 
     @Override
-    public void sendConfirmationForm(long chatId, UUID userId, String username) {
+    public void sendConfirmation(long chatId, long userId, String username) {
         SendMessage message = new SendMessage();
         message.setChatId(chatId);
         message.setText(CONFIRM_CONNECTION_ACCOUNT_TEXT.formatted(username));
-        message.setReplyMarkup(Buttons.inlineConnectConfirmationButton(userId));
         try {
             execute(message);
         } catch (TelegramApiException e){
@@ -156,17 +153,4 @@ public class TelegramNotificator extends TelegramLongPollingBot implements Notif
         }
     }
 
-
-    private void confirmConnectionAndShowSuccessMessage(long chatId, String receivedMessage){
-        UUID userId = UUID.fromString(receivedMessage.split(" ")[1]);
-        userService.addTelegramChat(chatId, userId);
-        SendMessage message = new SendMessage();
-        message.setChatId(chatId);
-        message.setText("Аккант подключен");
-        try {
-            execute(message);
-        } catch (TelegramApiException e){
-            log.error(e.getMessage());
-        }
-    }
 }

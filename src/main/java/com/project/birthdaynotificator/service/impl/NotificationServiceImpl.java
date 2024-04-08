@@ -1,20 +1,20 @@
-package com.project.birthdaynotificator.service;
+package com.project.birthdaynotificator.service.impl;
 
-import com.project.birthdaynotificator.dto.CreateNotificationRequest;
-import com.project.birthdaynotificator.dto.NotificationResponse;
-import com.project.birthdaynotificator.dto.UpdateNotificationRequest;
+import com.project.birthdaynotificator.dto.request.CreateNotificationRequest;
+import com.project.birthdaynotificator.dto.request.UpdateNotificationRequest;
 import com.project.birthdaynotificator.exception.ModelNotFoundException;
 import com.project.birthdaynotificator.model.Notification;
 import com.project.birthdaynotificator.model.NotificationPeriod;
 import com.project.birthdaynotificator.repository.NotificationRepository;
+import com.project.birthdaynotificator.repository.UserRepository;
+import com.project.birthdaynotificator.service.NotificationService;
+import com.project.birthdaynotificator.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -22,9 +22,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationServiceImpl implements NotificationService{
+public class NotificationServiceImpl implements NotificationService {
 
     private final NotificationRepository notificationRepo;
+    private final UserRepository userRepository;
 
     @Override
     public Notification find(int id) throws ModelNotFoundException {
@@ -33,7 +34,7 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
-    public Notification create(CreateNotificationRequest request) {
+    public Notification create(CreateNotificationRequest request) throws Exception {
         Notification notification = getModelFromCreateRequest(request);
         return notificationRepo.save(notification);
     }
@@ -63,10 +64,12 @@ public class NotificationServiceImpl implements NotificationService{
         return Arrays.asList(NotificationPeriod.values());
     }
 
-    private Notification getModelFromCreateRequest(CreateNotificationRequest request){
+    private Notification getModelFromCreateRequest(CreateNotificationRequest request) throws Exception {
         Notification notification = new Notification();
         notification.setDetails(request.getDetails());
         notification.setBirthdayDate(request.getBirthdayDate());
+        var user = userRepository.findById(request.getUserId()).orElseThrow(()->new Exception("User with id not found"));
+        user.addNotification(notification);
         return notification;
     }
 

@@ -1,14 +1,13 @@
-package com.project.birthdaynotificator.service;
+package com.project.birthdaynotificator.service.impl;
 
-import com.project.birthdaynotificator.dto.CreateNotificationRequest;
 import com.project.birthdaynotificator.model.Notification;
 import com.project.birthdaynotificator.repository.NotificationRepository;
+import com.project.birthdaynotificator.service.NotificationService;
 import com.project.birthdaynotificator.util.Notificator;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

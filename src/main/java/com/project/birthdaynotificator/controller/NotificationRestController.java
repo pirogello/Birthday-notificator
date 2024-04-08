@@ -1,9 +1,9 @@
 package com.project.birthdaynotificator.controller;
 
-import com.project.birthdaynotificator.dto.CreateNotificationRequest;
-import com.project.birthdaynotificator.dto.NotificationResponse;
-import com.project.birthdaynotificator.dto.PeriodsResponse;
-import com.project.birthdaynotificator.dto.UpdateNotificationRequest;
+import com.project.birthdaynotificator.dto.request.CreateNotificationRequest;
+import com.project.birthdaynotificator.dto.response.NotificationResponse;
+import com.project.birthdaynotificator.dto.response.PeriodsResponse;
+import com.project.birthdaynotificator.dto.request.UpdateNotificationRequest;
 import com.project.birthdaynotificator.exception.ModelNotFoundException;
 import com.project.birthdaynotificator.model.NotificationPeriod;
 import com.project.birthdaynotificator.service.NotificationService;
@@ -29,7 +29,7 @@ public class NotificationRestController {
     }
 
     @PostMapping
-    public NotificationResponse createNotification(@Valid @RequestBody CreateNotificationRequest request) {
+    public NotificationResponse createNotification(@Valid @RequestBody CreateNotificationRequest request) throws Exception {
         return NotificationResponse.getResponseFromModel(notificationService.create(request));
     }
 

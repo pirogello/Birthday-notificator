@@ -1,4 +1,4 @@
-package com.project.birthdaynotificator.dto;
+package com.project.birthdaynotificator.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -7,20 +7,16 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateNotificationRequest {
-
-    @NotNull(message = "Id не может быть пустым")
-    private Integer id;
+public class CreateNotificationRequest {
     private String details;
 
-    @NotNull(message = "birthdayDate не может быть пустым")
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate birthdayDate;
 
-    private Set<Integer> periods;
+    private Long userId;
 }

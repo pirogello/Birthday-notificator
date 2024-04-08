@@ -1,11 +1,10 @@
 package com.project.birthdaynotificator.util;
 
-import com.project.birthdaynotificator.dto.CreateNotificationRequest;
 import com.project.birthdaynotificator.model.Notification;
+import com.project.birthdaynotificator.model.User;
 import com.project.birthdaynotificator.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;

@@ -7,8 +7,7 @@ public enum BotCommandsEnum {
 
     START("/start"),
     HELP("/help"),
-    CONNECT_ACCOUNT("/connect"),
-    CONFIRM_CONNECT_ACCOUNT("/confirm_connect");
+    CONNECT_ACCOUNT("/connect");
 
 
     private final String command;

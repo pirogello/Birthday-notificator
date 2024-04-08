@@ -1,4 +1,4 @@
-package com.project.birthdaynotificator.dto;
+package com.project.birthdaynotificator.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.birthdaynotificator.model.Notification;
@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;

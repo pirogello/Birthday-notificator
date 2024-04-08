@@ -1,4 +1,4 @@
-package com.project.birthdaynotificator.dto;
+package com.project.birthdaynotificator.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
