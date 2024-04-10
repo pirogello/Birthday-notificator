@@ -9,9 +9,9 @@ spring:
     username: ${POSTGRES_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: validate
+#      ddl-auto: validate
 #      ddl-auto: create
-#      ddl-auto: none
+      ddl-auto: none
     show-sql: true
   flyway:
     schemas:
@@ -26,4 +26,5 @@ telegram:
 token:
   signing:
     key: ${JWT_TOKENSIGNING_KEY}
-    expire: 6000000
+    expire: 30000
+#    expire: 6000000

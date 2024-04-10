@@ -10,13 +10,12 @@ import com.project.birthdaynotificator.service.impl.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3001")
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthController {
@@ -34,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public JwtAuthenticationResponse login(@RequestBody LoginRequest dto) throws Exception {
+    public JwtAuthenticationResponse login(@RequestBody LoginRequest dto) throws AuthenticationException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 dto.getUsername(),
                 dto.getPassword()

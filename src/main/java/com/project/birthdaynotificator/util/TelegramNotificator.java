@@ -20,6 +20,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 
 import static com.project.birthdaynotificator.util.telegram.BotCommandsEnum.*;
 
@@ -124,7 +125,6 @@ public class TelegramNotificator extends TelegramLongPollingBot implements Notif
     @Override
     public void sendNotification(Notification notification) {
         var chatIds = notification.getUser().getTelegramChatIds();
-        //var chats = user.getTelegramChatIds().stream().toList();
         for (Long chat : chatIds) {
             sendTextMessage(chat, formatNotification(notification));
         }
@@ -132,10 +132,14 @@ public class TelegramNotificator extends TelegramLongPollingBot implements Notif
 
     private String formatNotification(Notification notification){
         DateTimeFormatter dTF = DateTimeFormatter.ofPattern("dd MMMM");
-        return NOTIFICATION_INFO_TEXT.formatted(dTF.format(notification.getBirthdayDate()),
+        return NOTIFICATION_INFO_TEXT.formatted(notification.getBirthdayDate().getDayOfMonth() - LocalDate.now().getDayOfMonth(),
+                dTF.format(notification.getBirthdayDate()),
                 notification.getDetails(),
                 LocalDate.now().getYear() - notification.getBirthdayDate().getYear(),
-                notification.getPeriods().stream().map(p -> String.valueOf(p.getValue())).reduce((acc, v) -> acc + v + " ").orElse(""));
+                notification.getPeriods().stream()
+                        .map(p -> String.valueOf(p.getValue()))
+                        .sorted(Comparator.reverseOrder())
+                        .reduce((acc, v) -> acc + ", " + v).orElse(""));
     }
 
     @Override

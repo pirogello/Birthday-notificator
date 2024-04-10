@@ -2,9 +2,11 @@ package com.project.birthdaynotificator.controller.advice;
 
 import com.project.birthdaynotificator.dto.errors.ValidExceptionBody;
 import com.project.birthdaynotificator.exception.ModelNotFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -35,6 +37,13 @@ public class CustomControllerAdvice {
     // JSON parse error
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleException(HttpMessageNotReadableException e) {
+        var errors = e.getMessage();
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<String> handleException(AuthenticationException e) {
         var errors = e.getMessage();
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
